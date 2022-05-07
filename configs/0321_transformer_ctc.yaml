@@ -1,0 +1,79 @@
+data_configs:
+  eval_at_char_level: false
+  hop_length: 25
+  lang_pair: en-de
+  max_len:
+  - 70
+  - 70
+  nfft: 256
+  norm: true
+  num_refs: 1
+  point_detection: false
+  ssfilter: true
+  test_data:
+  - debug/1238sentences/voice.en
+  - debug/1238sentences/voice.de
+  train_data:
+  - debug/1238sentences/train_npy.en
+  - debug/1238sentences/train_npy.de
+  valid_data:
+  - debug/1238sentences/all_test.en
+  - debug/1238sentences/all_test.de
+  vocabularies:
+  - dict_path: debug/1238sentences/vocab.src.json
+    max_n_words: -1
+    type: word
+model_configs:
+  joint_ctc: True
+  joint_weight: 0.0
+  d_inner_hid: 512
+  d_model: 256
+  d_word_vec: 256
+  dropout: 0.0
+  input_size: 288
+  model: Covn2dTransformerCTC
+  n_head: 8
+  n_layers: 6
+  proj_share_weight: true
+model_name: Covn2dTransformerCTC
+optimizer_configs:
+  grad_clip: -1.0
+  learning_rate: 0.1
+  optimizer: adam
+  optimizer_params: null
+  schedule_configs:
+    d_model: 256
+    warmup_steps: 8000
+  schedule_method: noam
+  scheduler_configs:
+    d_model: 256
+    warmup_steps: 2000
+training_configs:
+  batch_size: 128
+  batching_key: samples
+  bleu_valid_batch_size: 1
+  bleu_valid_configs:
+    alpha: 0.0
+    beam_size: 5
+    max_steps: 70
+    postprocess: true
+    sacrebleu_args: ''
+  bleu_valid_warmup: 4000
+  buffer_size: 10000
+  disp_freq: 500
+  early_stop_patience: 50
+  epcoh_valid_freq: 5
+  loss_valid_freq: 160
+  max_epochs: 10000
+  moving_average_alpha: 0.0
+  moving_average_method: null
+  moving_average_start_epoch: 0
+  norm_by_words: false
+  num_kept_best_model: 1
+  num_kept_checkpoints: 10
+  save_freq: 500
+  seed: 666
+  shuffle: true
+  update_cycle: 2
+  use_bucket: true
+  valid_batch_size: 64

@@ -1,0 +1,78 @@
+data_configs:
+  lang_pair: "en-de"
+
+  train_data:
+    - "debug/1238sentences/silents/silent_train_npy.en"
+    - "debug/1238sentences/silents/silent_train_npy.de" 
+  valid_data:
+    - "debug/1238sentences/silents/silent_all_test.en"
+    - "debug/1238sentences/silents/silent_all_test.de"  #"debug/183_8_1_1data/dev_183_data.de" # #
+  test_data:
+    - "debug/1238sentences/silents/silent_test.en"
+    - "debug/1238sentences/silents/silent_test.de"
+  nfft: 256
+  hop_length: 25
+  norm: True
+  ssfilter: False
+  point_detection: False
+  vocabularies:
+    - type: "word"
+      dict_path: "debug/1238sentences/vocab.src.json"
+      max_n_words: -1
+  max_len:
+    - 70
+    - 70
+  num_refs: 1
+  eval_at_char_level: false
+
+
+model_configs:
+  model: Covn2dTransformerCTC
+  input_size: 288
+  n_layers: 6
+  n_head: 8
+  d_word_vec: 256
+  d_model: 256
+  d_inner_hid: 512
+  dropout: 0.0
+  proj_share_weight: true
+
+optimizer_configs:
+  optimizer: "adam"
+  learning_rate: 0.1 
+  grad_clip: -1.0
+  optimizer_params: ~
+  schedule_method: noam
+  scheduler_configs:
+    d_model: 256
+    warmup_steps: 2000
+
+    
+
+training_configs:
+
+  mixup: 0.02
+
+  seed: 666
+  shuffle: true
+  use_bucket: true
+  batch_size: 128
+  buffer_size : 10000
+
+  batching_key: "samples"
+  update_cycle: 2
+  
+  valid_batch_size: 64
+  disp_freq: 500
+  save_freq: 500
+  num_kept_checkpoints: 10
+  loss_valid_freq: 160
+  epcoh_valid_freq: 5
+  bleu_valid_batch_size: 1
+  bleu_valid_warmup: 4000
+  bleu_valid_configs:
+    max_steps: 70
+    beam_size: 5
+    alpha: 0.0
+    postprocess: true
+  early_stop_patience: 50
